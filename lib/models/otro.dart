@@ -1,6 +1,7 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
-class Prueba {
+class Otro {
   int? id;
   DateTime start_date;
   DateTime end_date;
@@ -9,7 +10,7 @@ class Prueba {
   Bool all_day;
   Bool alarm;
   Reminder reminder;
-  Prueba({
+  Otro({
     this.id,
     required this.start_date,
     required this.end_date,
@@ -20,7 +21,7 @@ class Prueba {
     required this.reminder,
   });
 
-  Prueba copyWith({
+  Otro copyWith({
     int? id,
     DateTime? start_date,
     DateTime? end_date,
@@ -30,7 +31,7 @@ class Prueba {
     Bool? alarm,
     Reminder? reminder,
   }) {
-    return Prueba(
+    return Otro(
       id: id ?? this.id,
       start_date: start_date ?? this.start_date,
       end_date: end_date ?? this.end_date,
@@ -55,8 +56,8 @@ class Prueba {
     };
   }
 
-  factory Prueba.fromMap(Map<String, dynamic> map) {
-    return Prueba(
+  factory Otro.fromMap(Map<String, dynamic> map) {
+    return Otro(
       id: map['id'] != null ? map['id'] as int : null,
       start_date: DateTime.fromMillisecondsSinceEpoch(map['start_date'] as int),
       end_date: DateTime.fromMillisecondsSinceEpoch(map['end_date'] as int),
@@ -70,16 +71,16 @@ class Prueba {
 
   String toJson() => json.encode(toMap());
 
-  factory Prueba.fromJson(String source) =>
-      Prueba.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory Otro.fromJson(String source) =>
+      Otro.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() {
-    return 'Prueba(id: $id, start_date: $start_date, end_date: $end_date, title: $title, location: $location, all_day: $all_day, alarm: $alarm, reminder: $reminder)';
+    return 'Otro(id: $id, start_date: $start_date, end_date: $end_date, title: $title, location: $location, all_day: $all_day, alarm: $alarm, reminder: $reminder)';
   }
 
   @override
-  bool operator ==(covariant Prueba other) {
+  bool operator ==(covariant Otro other) {
     if (identical(this, other)) return true;
 
     return other.id == id &&
