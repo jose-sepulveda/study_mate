@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:study_mate/views/prueba_list.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -73,7 +74,10 @@ class _MyWidgetState extends State<MyWidget> {
                 height: 80.0,
                 child: ElevatedButton(
                   onPressed: () {
-                    // Acción cuando se presiona el botón "Pruebas"
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const PruebaList()));
                     print('Botón Pruebas presionado');
                   },
                   child: const Row(

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:manage_calendar_events/manage_calendar_events.dart';
 
-import 'event_list.dart';
+import 'prueba_list.dart';
 
 class CalendarList extends StatelessWidget {
   final CalendarPlugin _myPlugin = CalendarPlugin();

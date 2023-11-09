@@ -1,18 +1,18 @@
+// ignore_for_file: unnecessary_null_comparison
+
 import 'package:flutter/material.dart';
 import 'package:manage_calendar_events/manage_calendar_events.dart';
 
 import 'event_details.dart';
 
-class EventList extends StatefulWidget {
-  final String calendarId;
-
-  EventList({required this.calendarId});
+class PruebaList extends StatefulWidget {
+  const PruebaList({super.key});
 
   @override
-  _EventListState createState() => _EventListState();
+  _PruebaListState createState() => _PruebaListState();
 }
 
-class _EventListState extends State<EventList> {
+class _PruebaListState extends State<PruebaList> {
   final CalendarPlugin _myPlugin = CalendarPlugin();
 
   @override
@@ -22,7 +22,7 @@ class _EventListState extends State<EventList> {
         title: Text('Events List'),
       ),
       body: FutureBuilder<List<CalendarEvent>?>(
-        future: _fetchEvents(),
+        future: _fetchEventsFromMaxIdCalendar(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return Center(child: Text('No Events found'));
@@ -54,8 +54,8 @@ class _EventListState extends State<EventList> {
                 background: Container(
                   color: Colors.red,
                   alignment: Alignment.centerLeft,
-                  padding: EdgeInsets.only(left: 20.0),
-                  child: Icon(
+                  padding: const EdgeInsets.only(left: 20.0),
+                  child: const Icon(
                     Icons.delete,
                     color: Colors.white,
                   ),
@@ -64,8 +64,8 @@ class _EventListState extends State<EventList> {
                 secondaryBackground: Container(
                   color: Colors.blue,
                   alignment: Alignment.centerRight,
-                  padding: EdgeInsets.only(right: 20.0),
-                  child: Icon(
+                  padding: const EdgeInsets.only(right: 20.0),
+                  child: const Icon(
                     Icons.edit,
                     color: Colors.white,
                   ),
@@ -87,7 +87,7 @@ class _EventListState extends State<EventList> {
                     );
                   },
                   onLongPress: () {
-                    _deleteReminder(event.eventId!);
+                    //_deleteReminder(event.eventId!);
                   },
                 ),
               );
@@ -104,48 +104,81 @@ class _EventListState extends State<EventList> {
     );
   }
 
-  Future<List<CalendarEvent>?> _fetchEvents() async {
-    return _myPlugin.getEvents(calendarId: this.widget.calendarId);
-    // return _fetchEventsByDateRange();
-    // return _myPlugin.getEventsByMonth(
-    //     calendarId: this.widget.calendarId,
-    //     findDate: DateTime(2020, DateTime.december, 15));
-    // return _myPlugin.getEventsByWeek(
-    //     calendarId: this.widget.calendarId,
-    //     findDate: DateTime(2021, DateTime.june, 1));
+  Future<List<CalendarEvent>?> _fetchEventsFromMaxIdCalendar() async {
+    try {
+      final hasPermissions = await _myPlugin.hasPermissions();
+      if (!hasPermissions!) {
+        await _myPlugin.requestPermissions();
+      }
+
+      final calendars = await _myPlugin.getCalendars();
+      if (calendars == null || calendars.isEmpty) {
+        print('No se encontraron calendarios');
+        return null;
+      }
+
+      final maxIdCalendar = await _getCalendarWithMaxId();
+      if (maxIdCalendar == null) {
+        print('No se encontró un calendario con la ID máxima');
+        return null;
+      }
+
+      return _myPlugin.getEvents(calendarId: maxIdCalendar);
+    } catch (e) {
+      print('Error al obtener los eventos del calendario con la ID máxima: $e');
+      return null;
+    }
+  }
+
+  Future<String> _getCalendarWithMaxId() async {
+    Calendar? maxIdCalendar;
+    String maxId = '';
+
+    final calendars = await _myPlugin.getCalendars();
+    if (calendars == null || calendars.isEmpty) {
+      print('No se encontraron calendarios');
+      return maxId;
+    }
+
+    for (var calendar in calendars) {
+      if (maxIdCalendar == null ||
+          int.parse(calendar.id!) > int.parse(maxIdCalendar.id!)) {
+        maxIdCalendar = calendar;
+      }
+    }
+    if (maxIdCalendar != null) {
+      maxId = maxIdCalendar.id!;
+    }
+    return maxId;
   }
 
   // ignore: unused_element
   Future<List<CalendarEvent>?> _fetchEventsByDateRange() async {
-    DateTime endDate =
+    final maxIdCalendar = await _getCalendarWithMaxId();
+    final DateTime endDate =
         DateTime.now().toUtc().add(const Duration(hours: 23, minutes: 59));
     DateTime startDate = endDate.subtract(const Duration(days: 3));
     return _myPlugin.getEventsByDateRange(
-      calendarId: this.widget.calendarId,
+      calendarId: maxIdCalendar,
       startDate: startDate,
       endDate: endDate,
     );
   }
 
   void _addEvent() async {
+    final maxIdCalendar = await _getCalendarWithMaxId();
+
     DateTime startDate = DateTime.now();
-    DateTime endDate = startDate.add(Duration(hours: 3));
-    CalendarEvent _newEvent = CalendarEvent(
+    DateTime endDate = startDate.add(const Duration(hours: 3));
+    CalendarEvent newEvent = CalendarEvent(
       title: 'Event from plugin',
       description: 'test plugin description',
       startDate: startDate,
       endDate: endDate,
       location: 'Chennai, Tamilnadu',
-      url: 'https://www.google.com',
-      attendees: Attendees(
-        attendees: [
-          Attendee(emailAddress: 'test1@gmail.com', name: 'Test1'),
-          Attendee(emailAddress: 'test2@gmail.com', name: 'Test2'),
-        ],
-      ),
     );
     _myPlugin
-        .createEvent(calendarId: widget.calendarId, event: _newEvent)
+        .createEvent(calendarId: maxIdCalendar, event: newEvent)
         .then((evenId) {
       setState(() {
         debugPrint('Event Id is: $evenId');
@@ -154,14 +187,16 @@ class _EventListState extends State<EventList> {
   }
 
   void _deleteEvent(String eventId) async {
+    final maxIdCalendar = await _getCalendarWithMaxId();
     _myPlugin
-        .deleteEvent(calendarId: widget.calendarId, eventId: eventId)
+        .deleteEvent(calendarId: maxIdCalendar, eventId: eventId)
         .then((isDeleted) {
       debugPrint('Is Event deleted: $isDeleted');
     });
   }
 
   void _updateEvent(CalendarEvent event) async {
+    final maxIdCalendar = await _getCalendarWithMaxId();
     event.title = 'Updated from Event';
     event.description = 'Test description is updated now';
     event.attendees = Attendees(
@@ -170,7 +205,7 @@ class _EventListState extends State<EventList> {
       ],
     );
     _myPlugin
-        .updateEvent(calendarId: widget.calendarId, event: event)
+        .updateEvent(calendarId: maxIdCalendar, event: event)
         .then((eventId) {
       debugPrint('${event.eventId} is updated to $eventId');
     });
@@ -183,13 +218,15 @@ class _EventListState extends State<EventList> {
   }
 
   void _addReminder(String eventId, int minutes) async {
+    final maxIdCalendar = await _getCalendarWithMaxId();
     _myPlugin.addReminder(
-        calendarId: widget.calendarId, eventId: eventId, minutes: minutes);
+        calendarId: maxIdCalendar, eventId: eventId, minutes: minutes);
   }
 
   void _updateReminder(String eventId, int minutes) async {
+    final maxIdCalendar = await _getCalendarWithMaxId();
     _myPlugin.updateReminder(
-        calendarId: widget.calendarId, eventId: eventId, minutes: minutes);
+        calendarId: maxIdCalendar, eventId: eventId, minutes: minutes);
   }
 
   void _deleteReminder(String eventId) async {
