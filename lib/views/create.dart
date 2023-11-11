@@ -38,14 +38,19 @@ class _CreatePruebaScreenState extends State<CreatePruebaScreen> {
                 decoration: const InputDecoration(labelText: 'Titulo'),
               ),
               const SizedBox(height: 10),
-              ElevatedButton(
-                  onPressed: () async {
-                    String title = titleController.text;
-                    String location = locationController.text;
+              TextField(
+                controller: locationController,
+                decoration: const InputDecoration(
+                  labelText: 'Ubicacion'
+                ),
+              ),
+              const SizedBox(height: 10),
+              ElevatedButton(onPressed: () async {
+                String title: titleController.text;
+                String location: locationController.text;
 
-                    await PruebaList._addEvent();
-                  },
-                  child: child)
+                await P
+              }), child: child)
             ],
           ),
         ),
