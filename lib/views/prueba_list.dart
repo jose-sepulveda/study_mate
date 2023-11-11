@@ -2,11 +2,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:manage_calendar_events/manage_calendar_events.dart';
+import 'package:study_mate/views/create.dart';
 
 import 'event_details.dart';
 
 class PruebaList extends StatefulWidget {
-  const PruebaList({super.key});
+  const PruebaList({Key? key}) : super(key: key);
 
   @override
   _PruebaListState createState() => _PruebaListState();
@@ -95,9 +96,18 @@ class _PruebaListState extends State<PruebaList> {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () {
-          _addEvent();
+        backgroundColor: Colors.deepOrangeAccent,
+        child: const Icon(Icons.add),
+        onPressed: () async {
+          if (!mounted) return;
+
+          MaterialPageRoute route = MaterialPageRoute(
+            builder: (BuildContext context) {
+              return const CreateEventScreen();
+            },
+          );
+          await Navigator.of(context).push(route);
+          await _fetchEventsFromMaxIdCalendar();
         },
       ),
     );
@@ -170,17 +180,16 @@ class _PruebaListState extends State<PruebaList> {
     );
   }
 
-  void _addEvent() async {
+  Future<void> addEvent(DateTime startDate, String title, String location,
+      Duration duration) async {
     final maxIdCalendar = await _getCalendarWithMaxId();
 
-    DateTime startDate = DateTime.now();
-    DateTime endDate = startDate.add(const Duration(hours: 3));
+    DateTime endDate = startDate.add(duration);
     CalendarEvent newEvent = CalendarEvent(
-      title: 'PB' + ' Taller de desarrollo',
-      description: 'test plugin description',
+      title: 'PB$title',
       startDate: startDate,
       endDate: endDate,
-      location: 'Chennai, Tamilnadu',
+      location: location,
     );
     _myPlugin
         .createEvent(calendarId: maxIdCalendar, event: newEvent)
