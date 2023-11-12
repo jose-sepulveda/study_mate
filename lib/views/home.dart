@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:study_mate/views/pruebas/prueba_list.dart';
+import 'package:study_mate/views/presentacion/presentacion_list.dart';
+import 'package:study_mate/views/tareas/tarea_list.dart';
+import 'package:study_mate/views/otros/otro_list.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
