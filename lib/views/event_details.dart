@@ -33,22 +33,39 @@ class _EventDetailsState extends State<EventDetails> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    'Descripción: ${widget.activeEvent.description}',
+                    'Description: ${widget.activeEvent.description}',
                     style: Theme.of(context).textTheme.headline6,
                   ),
                   const SizedBox(height: 20),
-                  Text('Fecha de Inicio: ${widget.activeEvent.startDate}'),
+                  Text('Start Date: ${widget.activeEvent.startDate}'),
                   const SizedBox(height: 20),
-                  Text('Fecha de Finalización: ${widget.activeEvent.endDate}'),
+                  Text('End Date: ${widget.activeEvent.endDate}'),
                   const SizedBox(height: 20),
-                  Text('Ubicación: ${widget.activeEvent.location}'),
+                  Text('Location: ${widget.activeEvent.location}'),
                   const SizedBox(height: 20),
+                  Text('URL: ${widget.activeEvent.url}'),
+                  const SizedBox(height: 20),
+                  Text('All day event: ${widget.activeEvent.isAllDay}'),
+                  const SizedBox(height: 20),
+                  Text('Has Alarm: ${widget.activeEvent.hasAlarm}'),
+                  const SizedBox(height: 20),
+                  Text(
+                    'Reminder: ${widget.activeEvent.reminder}',
+                  ),
                 ],
               ),
             ),
+            buildAttendeeList(),
           ],
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.add),
+          onPressed: () async {
+            setState(() {
+              _addAttendee(widget.activeEvent.eventId!);
+            });
+          }),
     );
   }
 
