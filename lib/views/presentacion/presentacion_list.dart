@@ -25,7 +25,7 @@ class _PresentacionListState extends State<PresentacionList> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Events List'),
+        title: const Text('Lista de Presentaciones'),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
@@ -38,7 +38,7 @@ class _PresentacionListState extends State<PresentacionList> {
         future: _fetchEventsFromMaxIdCalendar(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
-            return Center(child: Text('No Events found'));
+            return Center(child: Text('No hay eventos encontrados'));
           }
           List<CalendarEvent> events = snapshot.data!;
           return ListView.builder(
