@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:study_mate/views/prueba_list.dart';
+import 'package:study_mate/views/pruebas/prueba_list.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -65,115 +65,118 @@ class _MyWidgetState extends State<MyWidget> {
       ),
       body: [
         Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              const SizedBox(height: 16.0),
-              SizedBox(
-                width: double.infinity,
-                height: 80.0,
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const PruebaList()));
-                    print('Botón Pruebas presionado');
-                  },
-                  child: const Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      Icon(
-                        Icons.pending_actions,
-                        size: 30,
-                      ),
-                      SizedBox(width: 8.0),
-                      Text(
-                        'Pruebas',
-                        style: TextStyle(fontSize: 30),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              const SizedBox(height: 16.0),
-              SizedBox(
-                width: double.infinity,
-                height: 80.0,
-                child: ElevatedButton(
+          child: Padding(
+            padding: const EdgeInsets.all(15.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                const SizedBox(height: 16.0),
+                SizedBox(
+                  width: double.infinity,
+                  height: 80.0,
+                  child: ElevatedButton(
                     onPressed: () {
-                      // Acción cuando se presiona el botón "Tareas"
-                      print('Botón Tareas presionado');
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const PruebaList()));
+                      print('Botón Pruebas presionado');
                     },
                     child: const Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
                         Icon(
-                          Icons.note_alt_outlined,
+                          Icons.pending_actions,
                           size: 30,
                         ),
                         SizedBox(width: 8.0),
                         Text(
-                          'Tareas',
-                          style: TextStyle(fontSize: 30),
+                          'Pruebas',
+                          style: TextStyle(fontSize: 25),
                         ),
                       ],
-                    )),
-              ),
-              const SizedBox(height: 16.0),
-              SizedBox(
-                width: double.infinity,
-                height: 80.0,
-                child: ElevatedButton(
-                  onPressed: () {
-                    // Acción cuando se presiona el botón "Presentaciones"
-                    print('Botón Presentaciones presionado');
-                  },
-                  child: const Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      Icon(
-                        Icons.personal_video,
-                        size: 30,
-                      ),
-                      SizedBox(
-                        width: 8.0,
-                      ),
-                      Text(
-                        'Presentaciones',
-                        style: TextStyle(fontSize: 30),
-                      ),
-                    ],
+                    ),
                   ),
                 ),
-              ),
-              const SizedBox(height: 16.0),
-              SizedBox(
-                width: double.infinity,
-                height: 80.0,
-                child: ElevatedButton(
+                const SizedBox(height: 16.0),
+                SizedBox(
+                  width: double.infinity,
+                  height: 80.0,
+                  child: ElevatedButton(
+                      onPressed: () {
+                        // Acción cuando se presiona el botón "Tareas"
+                        print('Botón Tareas presionado');
+                      },
+                      child: const Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          Icon(
+                            Icons.note_alt_outlined,
+                            size: 30,
+                          ),
+                          SizedBox(width: 8.0),
+                          Text(
+                            'Tareas',
+                            style: TextStyle(fontSize: 25),
+                          ),
+                        ],
+                      )),
+                ),
+                const SizedBox(height: 16.0),
+                SizedBox(
+                  width: double.infinity,
+                  height: 80.0,
+                  child: ElevatedButton(
                     onPressed: () {
-                      // Acción cuando se presiona el botón "Otros"
-                      print('Botón Otros presionado');
+                      // Acción cuando se presiona el botón "Presentaciones"
+                      print('Botón Presentaciones presionado');
                     },
                     child: const Row(
                       mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
+                      children: <Widget>[
                         Icon(
-                          Icons.school,
+                          Icons.personal_video,
                           size: 30,
                         ),
                         SizedBox(
                           width: 8.0,
                         ),
                         Text(
-                          'Otros',
-                          style: TextStyle(fontSize: 30),
+                          'Presentaciones',
+                          style: TextStyle(fontSize: 25),
                         ),
                       ],
-                    )),
-              ),
-            ],
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 16.0),
+                SizedBox(
+                  width: double.infinity,
+                  height: 80.0,
+                  child: ElevatedButton(
+                      onPressed: () {
+                        // Acción cuando se presiona el botón "Otros"
+                        print('Botón Otros presionado');
+                      },
+                      child: const Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Icon(
+                            Icons.school,
+                            size: 30,
+                          ),
+                          SizedBox(
+                            width: 8.0,
+                          ),
+                          Text(
+                            'Otros',
+                            style: TextStyle(fontSize: 25),
+                          ),
+                        ],
+                      )),
+                ),
+              ],
+            ),
           ),
         ),
         Center(

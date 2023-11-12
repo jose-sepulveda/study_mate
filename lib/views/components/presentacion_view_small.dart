@@ -12,7 +12,7 @@ class PresentacionViewSmall extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: Colors.orange,
+      color: Colors.black,
       child: ListTile(
         title: Text(presentacion.title),
         subtitle: Text(presentacion.location),
