@@ -2,20 +2,20 @@
 
 import 'package:flutter/material.dart';
 import 'package:manage_calendar_events/manage_calendar_events.dart';
-import 'package:study_mate/views/pruebas/create.dart';
+import 'package:study_mate/views/tareas/create.dart';
 import 'package:study_mate/views/home.dart';
-import 'package:study_mate/views/pruebas/update.dart';
+import 'package:study_mate/views/tareas/update.dart';
 
 import '../event_details.dart';
 
-class PruebaList extends StatefulWidget {
-  const PruebaList({super.key});
+class TareaList extends StatefulWidget {
+  const TareaList({super.key});
 
   @override
-  _PruebaListState createState() => _PruebaListState();
+  _TareaListState createState() => _TareaListState();
 }
 
-class _PruebaListState extends State<PruebaList> {
+class _TareaListState extends State<TareaList> {
   final CalendarPlugin _myPlugin = CalendarPlugin();
   @override
   void initState() {
@@ -26,7 +26,7 @@ class _PruebaListState extends State<PruebaList> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Lista de Pruebas'),
+        title: const Text('Lista de Tareas'),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
@@ -39,7 +39,7 @@ class _PruebaListState extends State<PruebaList> {
         future: _fetchEventsFromMaxIdCalendar(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
-            return Center(child: Text('No hay eventos encontrados'));
+            return Center(child: Text('No se encontraron eventos'));
           }
           List<CalendarEvent> events = snapshot.data!;
           return ListView.builder(
@@ -144,7 +144,7 @@ class _PruebaListState extends State<PruebaList> {
       }
       final allEvents = await _myPlugin.getEvents(calendarId: maxIdCalendar);
       final filteredEvents = allEvents
-          ?.where((event) => event.title?.contains('PB') ?? false)
+          ?.where((event) => event.title?.contains('TR') ?? false)
           .toList();
 
       return filteredEvents;

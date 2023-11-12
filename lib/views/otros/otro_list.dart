@@ -2,20 +2,20 @@
 
 import 'package:flutter/material.dart';
 import 'package:manage_calendar_events/manage_calendar_events.dart';
-import 'package:study_mate/views/pruebas/create.dart';
+import 'package:study_mate/views/otros/create.dart';
 import 'package:study_mate/views/home.dart';
-import 'package:study_mate/views/pruebas/update.dart';
+import 'package:study_mate/views/otros/update.dart';
 
 import '../event_details.dart';
 
-class PruebaList extends StatefulWidget {
-  const PruebaList({super.key});
+class OtroList extends StatefulWidget {
+  const OtroList({super.key});
 
   @override
-  _PruebaListState createState() => _PruebaListState();
+  _OtroListState createState() => _OtroListState();
 }
 
-class _PruebaListState extends State<PruebaList> {
+class _OtroListState extends State<OtroList> {
   final CalendarPlugin _myPlugin = CalendarPlugin();
   @override
   void initState() {
@@ -26,7 +26,7 @@ class _PruebaListState extends State<PruebaList> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Lista de Pruebas'),
+        title: const Text('Lista de Otros Recordatorios'),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
@@ -39,7 +39,7 @@ class _PruebaListState extends State<PruebaList> {
         future: _fetchEventsFromMaxIdCalendar(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
-            return Center(child: Text('No hay eventos encontrados'));
+            return Center(child: Text('No se encontraron eventos'));
           }
           List<CalendarEvent> events = snapshot.data!;
           return ListView.builder(
@@ -144,7 +144,7 @@ class _PruebaListState extends State<PruebaList> {
       }
       final allEvents = await _myPlugin.getEvents(calendarId: maxIdCalendar);
       final filteredEvents = allEvents
-          ?.where((event) => event.title?.contains('PB') ?? false)
+          ?.where((event) => event.title?.contains('OTR') ?? false)
           .toList();
 
       return filteredEvents;
@@ -190,7 +190,7 @@ class _PruebaListState extends State<PruebaList> {
     DateTime startDate = DateTime.now();
     DateTime endDate = startDate.add(const Duration(hours: 3));
     CalendarEvent newEvent = CalendarEvent(
-      title: 'PB' + ' Taller de desarrollo',
+      title: 'OTR' + ' Taller de desarrollo',
       description: 'test plugin description',
       startDate: startDate,
       endDate: endDate,

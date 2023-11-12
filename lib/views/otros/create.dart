@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:manage_calendar_events/manage_calendar_events.dart';
-import 'package:study_mate/views/pruebas/prueba_list.dart';
+import 'package:study_mate/views/otros/otro_list.dart';
 
 class CreateEventScreen extends StatefulWidget {
   const CreateEventScreen({Key? key}) : super(key: key);
@@ -28,7 +28,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Nuevo Evento de Prueba'),
+          title: const Text('Nuevo Evento de Otro Recordatorio'),
           backgroundColor: Colors.black,
         ),
         body: Card(
@@ -95,13 +95,13 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const PruebaList()));
+                            builder: (context) => const OtroList()));
                   },
                   style: ButtonStyle(
                       backgroundColor:
                           MaterialStateProperty.all(Colors.deepOrangeAccent),
                       foregroundColor: MaterialStateProperty.all(Colors.black)),
-                  child: const Text('Crear Prueba'),
+                  child: const Text('Crear Otro Recordatorio'),
                 ),
               ],
             ),
@@ -126,7 +126,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
 
   void _submitForm() async {
     final CalendarEvent event = CalendarEvent(
-      title: "PB " + titleController.text,
+      title: "OTR " + titleController.text,
       description: descriptionController.text,
       location: locationController.text,
       startDate: startDate,
