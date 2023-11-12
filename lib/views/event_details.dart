@@ -1,7 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:manage_calendar_events/manage_calendar_events.dart';
-import 'package:'
 
 class EventDetails extends StatefulWidget {
   final CalendarEvent activeEvent;
@@ -34,39 +33,22 @@ class _EventDetailsState extends State<EventDetails> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    'Description: ${widget.activeEvent.description}',
+                    'Descripción: ${widget.activeEvent.description}',
                     style: Theme.of(context).textTheme.headline6,
                   ),
                   const SizedBox(height: 20),
-                  Text('Start Date: ${widget.activeEvent.startDate}'),
+                  Text('Fecha de Inicio: ${widget.activeEvent.startDate}'),
                   const SizedBox(height: 20),
-                  Text('End Date: ${widget.activeEvent.endDate}'),
+                  Text('Fecha de Finalización: ${widget.activeEvent.endDate}'),
                   const SizedBox(height: 20),
-                  Text('Location: ${widget.activeEvent.location}'),
+                  Text('Ubicación: ${widget.activeEvent.location}'),
                   const SizedBox(height: 20),
-                  Text('URL: ${widget.activeEvent.url}'),
-                  const SizedBox(height: 20),
-                  Text('All day event: ${widget.activeEvent.isAllDay}'),
-                  const SizedBox(height: 20),
-                  Text('Has Alarm: ${widget.activeEvent.hasAlarm}'),
-                  const SizedBox(height: 20),
-                  Text(
-                    'Reminder: ${widget.activeEvent.reminder}',
-                  ),
                 ],
               ),
             ),
-            buildAttendeeList(),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.add),
-          onPressed: () async {
-            setState(() {
-              _addAttendee(widget.activeEvent.eventId!);
-            });
-          }),
     );
   }
 

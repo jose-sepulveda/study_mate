@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:manage_calendar_events/manage_calendar_events.dart';
 import 'package:study_mate/views/create.dart';
+import 'package:study_mate/views/update.dart';
 
 import 'event_details.dart';
 
@@ -20,13 +21,13 @@ class _PruebaListState extends State<PruebaList> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Events List'),
+        title: const Text('Events List'),
       ),
       body: FutureBuilder<List<CalendarEvent>?>(
         future: _fetchEventsFromMaxIdCalendar(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
-            return Center(child: Text('No Events found'));
+            return const Center(child: Text('No Events found'));
           }
           List<CalendarEvent> events = snapshot.data!;
           return ListView.builder(
@@ -38,17 +39,17 @@ class _PruebaListState extends State<PruebaList> {
                 confirmDismiss: (direction) async {
                   if (DismissDirection.startToEnd == direction) {
                     setState(() {
-                      _deleteEvent(event.eventId!);
+                      _deleteEventAndUpdateList(event.eventId!);
                     });
 
                     return true;
-                  } else {
+                  } else if (DismissDirection.endToStart == direction) {
                     setState(() {
                       _updateEvent(event);
                     });
-
                     return false;
                   }
+                  return false;
                 },
                 // delete option
                 background: Container(
@@ -107,7 +108,6 @@ class _PruebaListState extends State<PruebaList> {
             },
           );
           await Navigator.of(context).push(route);
-          await _fetchEventsFromMaxIdCalendar();
         },
       ),
     );
@@ -209,26 +209,21 @@ class _PruebaListState extends State<PruebaList> {
     });
   }
 
-  void _updateEvent(CalendarEvent event) async {
-    final maxIdCalendar = await _getCalendarWithMaxId();
-    event.title = 'Updated from Event';
-    event.description = 'Test description is updated now';
-    event.attendees = Attendees(
-      attendees: [
-        Attendee(emailAddress: 'updatetest@gmail.com', name: 'Update Test'),
-      ],
+  void _updateEvent(CalendarEvent event) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) {
+          return UpdateEventScreen(
+            // Pasa los datos actuales del evento
+            title: event.title!,
+            description: event.description ?? '',
+            location: event.location ?? '',
+            // ...
+          );
+        },
+      ),
     );
-    _myPlugin
-        .updateEvent(calendarId: maxIdCalendar, event: event)
-        .then((eventId) {
-      debugPrint('${event.eventId} is updated to $eventId');
-    });
-
-    if (event.hasAlarm!) {
-      _updateReminder(event.eventId!, 65);
-    } else {
-      _addReminder(event.eventId!, -30);
-    }
   }
 
   void _addReminder(String eventId, int minutes) async {
@@ -245,5 +240,11 @@ class _PruebaListState extends State<PruebaList> {
 
   void _deleteReminder(String eventId) async {
     _myPlugin.deleteReminder(eventId: eventId);
+  }
+
+  void _deleteEventAndUpdateList(String eventId) async {
+    final maxIdCalendar = await _getCalendarWithMaxId();
+    await _myPlugin.deleteEvent(calendarId: maxIdCalendar, eventId: eventId);
+    _fetchEventsFromMaxIdCalendar();
   }
 }
