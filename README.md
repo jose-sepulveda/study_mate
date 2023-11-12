@@ -2,7 +2,7 @@
 
 |Integrante| Rut | Rol
 |--|--|--|
-| Jose Sepulveda Gajardo | 20.563.679-k |Desarrollador Principal|
+| Jose Sepulveda Gajardo | 20.563.679-K |Desarrollador Principal|
 | Carlos Tapia González | 20.563.351-0 |Arquitectura de Software|
 | Vicente Reyes Barrios | 20.564.697-3 |Encargado de Diseño|
 
