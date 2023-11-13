@@ -110,18 +110,18 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
   }
 
   Future<String> _getCalendar() async {
-    Calendar? maxIdCalendar;
-    String maxId = '';
+    Calendar? calendarAux;
+    String idCalendario = '';
 
     final calendars = await _myPlugin.getCalendars();
-    maxIdCalendar = calendars?.firstWhere(
+    calendarAux = calendars?.firstWhere(
       (calendar) => calendar.name!.contains('@gmail.com'),
     );
 
-    if (maxIdCalendar != null) {
-      maxId = maxIdCalendar.id!;
+    if (calendarAux != null) {
+      idCalendario = calendarAux.id!;
     }
-    return maxId;
+    return idCalendario;
   }
 
   void _submitForm() async {
@@ -132,12 +132,12 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
       startDate: startDate,
       endDate: startDate.add(const Duration(hours: 1)),
     );
-    final maxIdCalendar = await _getCalendar();
-    if (maxIdCalendar == null) {
+    final calendarAux = await _getCalendar();
+    if (calendarAux == null) {
       print('No se encontró un calendario con la ID máxima');
       return null;
     }
 
-    await _myPlugin.createEvent(calendarId: maxIdCalendar, event: event);
+    await _myPlugin.createEvent(calendarId: calendarAux, event: event);
   }
 }

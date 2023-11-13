@@ -140,23 +140,23 @@ class _UpdateEventScreenState extends State<UpdateEventScreen> {
   }
 
   Future<String> _getCalendar() async {
-    Calendar? maxIdCalendar;
-    String maxId = '';
+    Calendar? calendarAux;
+    String idCalendario = '';
 
     final calendars = await _myPlugin.getCalendars();
-    maxIdCalendar = calendars?.firstWhere(
+    calendarAux = calendars?.firstWhere(
       (calendar) => calendar.name!.contains('@gmail.com'),
     );
 
-    if (maxIdCalendar != null) {
-      maxId = maxIdCalendar.id!;
+    if (calendarAux != null) {
+      idCalendario = calendarAux.id!;
     }
-    return maxId;
+    return idCalendario;
   }
 
   void _updateEvent() async {
-    final maxIdCalendar = await _getCalendar();
-    final CalendarEvent event_upgrade = CalendarEvent(
+    final idCalendar = await _getCalendar();
+    final CalendarEvent eventUpgrade = CalendarEvent(
       eventId: idController.text,
       title: titleController.text,
       description: descriptionController.text,
@@ -165,9 +165,9 @@ class _UpdateEventScreenState extends State<UpdateEventScreen> {
       endDate: startDate.add(const Duration(hours: 1)),
     );
     _myPlugin
-        .updateEvent(calendarId: maxIdCalendar, event: event_upgrade)
+        .updateEvent(calendarId: idCalendar, event: eventUpgrade)
         .then((idController) {
-      debugPrint('${event_upgrade.eventId} is updated to $idController');
+      debugPrint('${eventUpgrade.eventId} is updated to $idController');
     });
   }
 }
