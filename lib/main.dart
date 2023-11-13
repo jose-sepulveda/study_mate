@@ -13,10 +13,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'StudyMate',
-      theme: ThemeData(
-        colorScheme: const ColorScheme.dark(),
-        useMaterial3: true,
-      ),
       home: const Home(),
       debugShowCheckedModeBanner: false,
     );

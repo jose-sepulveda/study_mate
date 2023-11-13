@@ -83,25 +83,34 @@ class _PruebaListState extends State<PruebaList> {
                     color: Colors.white,
                   ),
                 ),
-                child: ListTile(
-                  title: Text(event.title!),
-                  subtitle: Text(event.startDate!.toIso8601String()),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) {
-                          return EventDetails(
-                            activeEvent: event,
-                            calendarPlugin: _myPlugin,
-                          );
-                        },
-                      ),
-                    );
-                  },
-                  onLongPress: () {
-                    //_deleteReminder(event.eventId!);
-                  },
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10.0),
+                      color: Color.fromARGB(255, 181, 58, 9),
+                    ),
+                    child: ListTile(
+                      title: Text(event.title!),
+                      subtitle: Text(event.startDate!.toIso8601String()),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return EventDetails(
+                                activeEvent: event,
+                                calendarPlugin: _myPlugin,
+                              );
+                            },
+                          ),
+                        );
+                      },
+                      onLongPress: () {
+                        //_deleteReminder(event.eventId!);
+                      },
+                    ),
+                  ),
                 ),
               );
             },

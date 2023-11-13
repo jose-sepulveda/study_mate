@@ -85,17 +85,21 @@ class _MyWidgetState extends State<MyWidget> {
                               builder: (context) => const PruebaList()));
                       print('Botón Pruebas presionado');
                     },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color.fromARGB(255, 181, 58, 9),
+                    ),
                     child: const Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
                         Icon(
                           Icons.pending_actions,
                           size: 30,
+                          color: Colors.white,
                         ),
                         SizedBox(width: 8.0),
                         Text(
                           'Pruebas',
-                          style: TextStyle(fontSize: 25),
+                          style: TextStyle(fontSize: 25, color: Colors.white),
                         ),
                       ],
                     ),
@@ -113,17 +117,21 @@ class _MyWidgetState extends State<MyWidget> {
                                 builder: (context) => const TareaList()));
                         print('Botón Tareas presionado');
                       },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color.fromARGB(255, 238, 145, 5),
+                      ),
                       child: const Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget>[
                           Icon(
                             Icons.note_alt_outlined,
                             size: 30,
+                            color: Colors.white,
                           ),
                           SizedBox(width: 8.0),
                           Text(
                             'Tareas',
-                            style: TextStyle(fontSize: 25),
+                            style: TextStyle(fontSize: 25, color: Colors.white),
                           ),
                         ],
                       )),
@@ -143,16 +151,14 @@ class _MyWidgetState extends State<MyWidget> {
                     child: const Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
-                        Icon(
-                          Icons.personal_video,
-                          size: 30,
-                        ),
+                        Icon(Icons.personal_video,
+                            size: 30, color: Colors.white),
                         SizedBox(
                           width: 8.0,
                         ),
                         Text(
                           'Presentaciones',
-                          style: TextStyle(fontSize: 25),
+                          style: TextStyle(fontSize: 25, color: Colors.white),
                         ),
                       ],
                     ),
@@ -173,16 +179,13 @@ class _MyWidgetState extends State<MyWidget> {
                       child: const Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          Icon(
-                            Icons.school,
-                            size: 30,
-                          ),
+                          Icon(Icons.school, size: 30, color: Colors.white),
                           SizedBox(
                             width: 8.0,
                           ),
                           Text(
                             'Otros',
-                            style: TextStyle(fontSize: 25),
+                            style: TextStyle(fontSize: 25, color: Colors.white),
                           ),
                         ],
                       )),
@@ -206,14 +209,11 @@ class _MyWidgetState extends State<MyWidget> {
                       child: const Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget>[
-                          Icon(
-                            Icons.info,
-                            size: 30,
-                          ),
+                          Icon(Icons.info, size: 30, color: Colors.white),
                           SizedBox(width: 8.0),
                           Text(
                             'Acerca de',
-                            style: TextStyle(fontSize: 30),
+                            style: TextStyle(fontSize: 30, color: Colors.white),
                           )
                         ],
                       )))

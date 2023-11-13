@@ -126,4 +126,5 @@ La función anterior representa la selección de todos los eventos que están cr
 
 La arquitectura de software utilizada para implementar la aplicación Study Mate, fue un modelo de capas formado por Vistas, Controlladores y Servicios. 
 La aplicación se compone de diversos widgets que se pueden considerar como Vista o Controllador, puesto que además de ofrecer funcionalidades con las cuales el usuario puede interactuar, estas presentan la interfaz de los distintos componentes. Teniendo esto en cuenta seccionamos los distintos controladores según las funciones de agregar, actualizar y eliminar los recordatorios presentes en los eventos registrados. 
+
 ![enter image description here](https://i.imgur.com/47sMeZn.png)
