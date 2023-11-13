@@ -88,7 +88,7 @@ class _PruebaListState extends State<PruebaList> {
                   child: Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10.0),
-                      color: Color.fromARGB(255, 181, 58, 9),
+                      color: const Color.fromARGB(255, 181, 58, 9),
                     ),
                     child: ListTile(
                       title: Text(event.title!),

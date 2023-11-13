@@ -83,25 +83,34 @@ class _OtroListState extends State<OtroList> {
                     color: Colors.white,
                   ),
                 ),
-                child: ListTile(
-                  title: Text(event.title!),
-                  subtitle: Text(event.startDate!.toIso8601String()),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) {
-                          return EventDetails(
-                            activeEvent: event,
-                            calendarPlugin: _myPlugin,
-                          );
-                        },
-                      ),
-                    );
-                  },
-                  onLongPress: () {
-                    //_deleteReminder(event.eventId!);
-                  },
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10.0),
+                      color: const Color.fromARGB(255, 207, 114, 7),
+                    ),
+                    child: ListTile(
+                      title: Text(event.title!),
+                      subtitle: Text(event.startDate!.toIso8601String()),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return EventDetails(
+                                activeEvent: event,
+                                calendarPlugin: _myPlugin,
+                              );
+                            },
+                          ),
+                        );
+                      },
+                      onLongPress: () {
+                        //_deleteReminder(event.eventId!);
+                      },
+                    ),
+                  ),
                 ),
               );
             },

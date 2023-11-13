@@ -148,6 +148,9 @@ class _MyWidgetState extends State<MyWidget> {
                               builder: (context) => const PresentacionList()));
                       print('Botón Presentaciones presionado');
                     },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color.fromARGB(255, 225, 67, 4),
+                    ),
                     child: const Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
@@ -176,6 +179,9 @@ class _MyWidgetState extends State<MyWidget> {
                                 builder: (context) => const OtroList()));
                         print('Botón Otros presionado');
                       },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color.fromARGB(255, 207, 114, 7),
+                      ),
                       child: const Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [

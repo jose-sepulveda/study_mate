@@ -154,7 +154,7 @@ class _UpdateEventScreenState extends State<UpdateEventScreen> {
 
   void _updateEvent() async {
     final maxIdCalendar = await _getCalendar();
-    final CalendarEvent event_upgrade = CalendarEvent(
+    final CalendarEvent eventUpgrade = CalendarEvent(
       eventId: idController.text,
       title: titleController.text,
       description: descriptionController.text,
@@ -163,9 +163,9 @@ class _UpdateEventScreenState extends State<UpdateEventScreen> {
       endDate: startDate.add(const Duration(hours: 1)),
     );
     _myPlugin
-        .updateEvent(calendarId: maxIdCalendar, event: event_upgrade)
+        .updateEvent(calendarId: maxIdCalendar, event: eventUpgrade)
         .then((idController) {
-      debugPrint('${event_upgrade.eventId} is updated to $idController');
+      debugPrint('${eventUpgrade.eventId} is updated to $idController');
     });
   }
 }
