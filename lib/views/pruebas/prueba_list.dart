@@ -171,7 +171,6 @@ class _PruebaListState extends State<PruebaList> {
     return idCalendario;
   }
 
-  // ignore: unused_element
   Future<List<CalendarEvent>?> _fetchEventsByDateRange() async {
     final idCalendar = await _getCalendar();
     final DateTime endDate =
