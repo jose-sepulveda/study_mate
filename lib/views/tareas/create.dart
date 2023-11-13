@@ -126,7 +126,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
 
   void _submitForm() async {
     final CalendarEvent event = CalendarEvent(
-      title: "TR " + titleController.text,
+      title: "TA " + titleController.text,
       description: descriptionController.text,
       location: locationController.text,
       startDate: startDate,

@@ -144,7 +144,7 @@ class _TareaListState extends State<TareaList> {
       }
       final allEvents = await _myPlugin.getEvents(calendarId: maxIdCalendar);
       final filteredEvents = allEvents
-          ?.where((event) => event.title?.contains('TR') ?? false)
+          ?.where((event) => event.title?.contains('TA') ?? false)
           .toList();
 
       return filteredEvents;
@@ -184,27 +184,6 @@ class _TareaListState extends State<TareaList> {
     );
   }
 
-  void _addEvent() async {
-    final maxIdCalendar = await _getCalendar();
-
-    DateTime startDate = DateTime.now();
-    DateTime endDate = startDate.add(const Duration(hours: 3));
-    CalendarEvent newEvent = CalendarEvent(
-      title: 'PB' + ' Taller de desarrollo',
-      description: 'test plugin description',
-      startDate: startDate,
-      endDate: endDate,
-      location: 'Chennai, Tamilnadu',
-    );
-    _myPlugin
-        .createEvent(calendarId: maxIdCalendar, event: newEvent)
-        .then((evenId) {
-      setState(() {
-        debugPrint('Event Id is: $evenId');
-      });
-    });
-  }
-
   void _deleteEvent(String eventId) async {
     final maxIdCalendar = await _getCalendar();
     _myPlugin
@@ -230,15 +209,5 @@ class _TareaListState extends State<TareaList> {
         },
       ),
     );
-  }
-
-  void _addReminder(String eventId, int minutes) async {
-    final maxIdCalendar = await _getCalendar();
-    _myPlugin.addReminder(
-        calendarId: maxIdCalendar, eventId: eventId, minutes: minutes);
-  }
-
-  void _deleteReminder(String eventId) async {
-    _myPlugin.deleteReminder(eventId: eventId);
   }
 }
