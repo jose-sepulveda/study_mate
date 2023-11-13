@@ -36,7 +36,7 @@ class _PruebaListState extends State<PruebaList> {
         ),
       ),
       body: FutureBuilder<List<CalendarEvent>?>(
-        future: _fetchEventsFromMaxIdCalendar(),
+        future: _fetchEventsFromCalendar(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return Center(child: Text('No hay eventos encontrados'));
@@ -126,7 +126,7 @@ class _PruebaListState extends State<PruebaList> {
 
   // Funcion listar eventos
 
-  Future<List<CalendarEvent>?> _fetchEventsFromMaxIdCalendar() async {
+  Future<List<CalendarEvent>?> _fetchEventsFromCalendar() async {
     try {
       final hasPermissions = await _myPlugin.hasPermissions();
       if (!hasPermissions!) {
@@ -137,12 +137,12 @@ class _PruebaListState extends State<PruebaList> {
         print('No se encontraron calendarios');
         return null;
       }
-      final maxIdCalendar = await _getCalendar();
-      if (maxIdCalendar == null) {
+      final idCalendar = await _getCalendar();
+      if (idCalendar == null) {
         print('No se encontró un calendario con la ID máxima');
         return null;
       }
-      final allEvents = await _myPlugin.getEvents(calendarId: maxIdCalendar);
+      final allEvents = await _myPlugin.getEvents(calendarId: idCalendar);
       final filteredEvents = allEvents
           ?.where((event) => event.title?.contains('PB') ?? false)
           .toList();
@@ -157,58 +157,36 @@ class _PruebaListState extends State<PruebaList> {
   // Entrega CalendarId
 
   Future<String> _getCalendar() async {
-    Calendar? maxIdCalendar;
-    String maxId = '';
+    Calendar? calendarAux;
+    String idCalendario = '';
 
     final calendars = await _myPlugin.getCalendars();
-    maxIdCalendar = calendars?.firstWhere(
+    calendarAux = calendars?.firstWhere(
       (calendar) => calendar.name!.contains('@gmail.com'),
     );
 
-    if (maxIdCalendar != null) {
-      maxId = maxIdCalendar.id!;
+    if (calendarAux != null) {
+      idCalendario = calendarAux.id!;
     }
-    return maxId;
+    return idCalendario;
   }
 
-  // ignore: unused_element
   Future<List<CalendarEvent>?> _fetchEventsByDateRange() async {
-    final maxIdCalendar = await _getCalendar();
+    final idCalendar = await _getCalendar();
     final DateTime endDate =
         DateTime.now().toUtc().add(const Duration(hours: 23, minutes: 59));
     DateTime startDate = endDate.subtract(const Duration(days: 3));
     return _myPlugin.getEventsByDateRange(
-      calendarId: maxIdCalendar,
+      calendarId: idCalendar,
       startDate: startDate,
       endDate: endDate,
     );
-  }
-
-  void _addEvent() async {
-    final maxIdCalendar = await _getCalendar();
-
-    DateTime startDate = DateTime.now();
-    DateTime endDate = startDate.add(const Duration(hours: 3));
-    CalendarEvent newEvent = CalendarEvent(
-      title: 'PB' + ' Taller de desarrollo',
-      description: 'test plugin description',
-      startDate: startDate,
-      endDate: endDate,
-      location: 'Chennai, Tamilnadu',
-    );
-    _myPlugin
-        .createEvent(calendarId: maxIdCalendar, event: newEvent)
-        .then((evenId) {
-      setState(() {
-        debugPrint('Event Id is: $evenId');
-      });
-    });
   }
 
   void _deleteEvent(String eventId) async {
-    final maxIdCalendar = await _getCalendar();
+    final idCalendar = await _getCalendar();
     _myPlugin
-        .deleteEvent(calendarId: maxIdCalendar, eventId: eventId)
+        .deleteEvent(calendarId: idCalendar, eventId: eventId)
         .then((isDeleted) {
       debugPrint('Is Event deleted: $isDeleted');
     });
@@ -230,15 +208,5 @@ class _PruebaListState extends State<PruebaList> {
         },
       ),
     );
-  }
-
-  void _addReminder(String eventId, int minutes) async {
-    final maxIdCalendar = await _getCalendar();
-    _myPlugin.addReminder(
-        calendarId: maxIdCalendar, eventId: eventId, minutes: minutes);
-  }
-
-  void _deleteReminder(String eventId) async {
-    _myPlugin.deleteReminder(eventId: eventId);
   }
 }
