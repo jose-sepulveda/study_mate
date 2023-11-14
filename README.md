@@ -27,7 +27,7 @@ En primer lugar el usuario se encuentra con un menu que contiene las categorias 
 
 ![enter image description here](https://i.imgur.com/lclA1Hx.png?3)
 
-Seguido a selececcionar una categoria el usuario será capaz de visualizar un listado con todos los recordatorios asociados a ella, tambien podrá eliminar, editar y agregar nuevos recordatorios desde el boton principal.
+Seguido a selececcionar una categoria el usuario será capaz de visualizar un listado con todos los recordatorios asociados a ella, tambien podrá eliminar, editar y agregar nuevos recordatorios desde el boton principal. Si el usuario pulsa el botón principal, aparecerá en pantalla una pequeña ventana con los formularios necesarios para crear un nuevo recordatorio.
 
 ## Implementación
 
