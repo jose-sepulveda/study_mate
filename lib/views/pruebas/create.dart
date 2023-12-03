@@ -3,6 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:manage_calendar_events/manage_calendar_events.dart';
 import 'package:study_mate/views/pruebas/prueba_list.dart';
+import 'package:provider/provider.dart';
+import 'package:study_mate/provider/calendar_state.dart';
 
 class CreateEventScreen extends StatefulWidget {
   const CreateEventScreen({Key? key}) : super(key: key);
@@ -125,19 +127,56 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
   }
 
   void _submitForm() async {
+    final String? calendarId =
+        Provider.of<CalendarState>(context, listen: false).chosenCalendarId;
+
+    if (calendarId == null) {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text('Advertencia'),
+              content: const Text('No se ha seleccionado un calendario'),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text('Aceptar'),
+                ),
+              ],
+            );
+          });
+      return;
+    }
+
     final CalendarEvent event = CalendarEvent(
-      title: "PB " + titleController.text,
+      title: "PB ${titleController.text}",
       description: descriptionController.text,
       location: locationController.text,
       startDate: startDate,
       endDate: startDate.add(const Duration(hours: 1)),
     );
-    final calendarAux = await _getCalendar();
-    if (calendarAux == null) {
-      print('No se encontró un calendario con la ID máxima');
-      return null;
-    }
 
-    await _myPlugin.createEvent(calendarId: calendarAux, event: event);
+    await _myPlugin.createEvent(calendarId: calendarId, event: event);
+    if (mounted) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Exito'),
+            content: const Text('Prueba se creo correctamente'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text('Aceptar'),
+              ),
+            ],
+          );
+        },
+      );
+    }
   }
 }

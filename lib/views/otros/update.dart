@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:manage_calendar_events/manage_calendar_events.dart';
-import 'package:study_mate/views/tareas/tarea_list.dart';
+import 'package:study_mate/views/otros/otro_list.dart';
+import 'package:study_mate/provider/calendar_state.dart';
+import 'package:provider/provider.dart';
 
 class UpdateEventScreen extends StatefulWidget {
   // Puedes pasar los datos del evento actual como parámetros si es necesario
@@ -123,7 +125,7 @@ class _UpdateEventScreenState extends State<UpdateEventScreen> {
                 // Implementa la lógica para actualizar el evento con los nuevos valores
                 _updateEvent();
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const TareaList()));
+                    MaterialPageRoute(builder: (context) => const OtroList()));
               },
               style: ButtonStyle(
                   backgroundColor:
@@ -153,7 +155,28 @@ class _UpdateEventScreenState extends State<UpdateEventScreen> {
   }
 
   void _updateEvent() async {
-    final idCalendar = await _getCalendar();
+    final idCalendar =
+        Provider.of<CalendarState>(context, listen: false).chosenCalendarId;
+
+    if (idCalendar == null) {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text('Advertencia'),
+              content: const Text('No se ha seleccionado un calendario'),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text('Aceptar'),
+                ),
+              ],
+            );
+          });
+      return;
+    }
     final CalendarEvent eventUpgrade = CalendarEvent(
       eventId: idController.text,
       title: titleController.text,
@@ -165,7 +188,24 @@ class _UpdateEventScreenState extends State<UpdateEventScreen> {
     _myPlugin
         .updateEvent(calendarId: idCalendar, event: eventUpgrade)
         .then((idController) {
-      debugPrint('${eventUpgrade.eventId} is updated to $idController');
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Exito'),
+            content: Text(
+                'El evento ${eventUpgrade.title} se actualizo correctamente'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text('Aceptar'),
+              ),
+            ],
+          );
+        },
+      );
     });
   }
 }

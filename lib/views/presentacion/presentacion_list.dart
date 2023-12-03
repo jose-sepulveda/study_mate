@@ -4,6 +4,8 @@ import 'package:manage_calendar_events/manage_calendar_events.dart';
 import 'package:study_mate/views/presentacion/create.dart';
 import 'package:study_mate/views/home.dart';
 import 'package:study_mate/views/presentacion/update.dart';
+import 'package:provider/provider.dart';
+import 'package:study_mate/provider/calendar_state.dart';
 
 import '../event_details.dart';
 
@@ -35,7 +37,7 @@ class _PresentacionListState extends State<PresentacionList> {
         ),
       ),
       body: FutureBuilder<List<CalendarEvent>?>(
-        future: _fetchEventsFromMaxIdCalendar(),
+        future: _fetchEventsFromCalendar(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return Center(child: Text('No hay eventos encontrados'));
@@ -134,30 +136,61 @@ class _PresentacionListState extends State<PresentacionList> {
 
   // Funcion listar eventos
 
-  Future<List<CalendarEvent>?> _fetchEventsFromMaxIdCalendar() async {
+  Future<List<CalendarEvent>?> _fetchEventsFromCalendar() async {
+    final String? calendarId =
+        Provider.of<CalendarState>(context, listen: false).chosenCalendarId;
+
+    if (calendarId == null) {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text('Advertencia'),
+              content: const Text('No se ha seleccionado un calendario'),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text('Aceptar'),
+                ),
+              ],
+            );
+          });
+      return null;
+    }
     try {
       final hasPermissions = await _myPlugin.hasPermissions();
       if (!hasPermissions!) {
         await _myPlugin.requestPermissions();
       }
-      final calendars = await _myPlugin.getCalendars();
-      if (calendars == null || calendars.isEmpty) {
-        print('No se encontraron calendarios');
-        return null;
-      }
-      final maxIdCalendar = await _getCalendar();
-      if (maxIdCalendar == null) {
-        print('No se encontró un calendario con la ID máxima');
-        return null;
-      }
-      final allEvents = await _myPlugin.getEvents(calendarId: maxIdCalendar);
+      final allEvents = await _myPlugin.getEvents(calendarId: calendarId);
       final filteredEvents = allEvents
           ?.where((event) => event.title?.contains('PR') ?? false)
           .toList();
 
       return filteredEvents;
     } catch (e) {
-      print('Error al obtener los eventos del calendario con la ID máxima: $e');
+      if (mounted) {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text('Exito'),
+              content: const Text(
+                  'Error al obtener las Eventos Presentaciones de este calendario'),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text('Aceptar'),
+                ),
+              ],
+            );
+          },
+        );
+      }
       return null;
     }
   }
@@ -193,11 +226,49 @@ class _PresentacionListState extends State<PresentacionList> {
   }
 
   void _deleteEvent(String eventId) async {
-    final maxIdCalendar = await _getCalendar();
+    final idCalendar =
+        Provider.of<CalendarState>(context, listen: false).chosenCalendarId;
+
+    if (idCalendar == null) {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text('Advertencia'),
+              content: const Text('No se ha seleccionado un calendario'),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text('Aceptar'),
+                ),
+              ],
+            );
+          });
+      return;
+    }
     _myPlugin
-        .deleteEvent(calendarId: maxIdCalendar, eventId: eventId)
+        .deleteEvent(calendarId: idCalendar, eventId: eventId)
         .then((isDeleted) {
-      debugPrint('Is Event deleted: $isDeleted');
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Exito'),
+            content:
+                Text('El evento con ID $eventId ha eliminado correctamente'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text('Aceptar'),
+              ),
+            ],
+          );
+        },
+      );
     });
   }
 

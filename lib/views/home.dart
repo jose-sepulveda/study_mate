@@ -1,8 +1,13 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
+import 'package:manage_calendar_events/manage_calendar_events.dart';
 import 'package:study_mate/views/pruebas/prueba_list.dart';
 import 'package:study_mate/views/presentacion/presentacion_list.dart';
 import 'package:study_mate/views/tareas/tarea_list.dart';
 import 'package:study_mate/views/otros/otro_list.dart';
+import 'package:study_mate/provider/calendar_state.dart';
+import 'package:provider/provider.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -56,6 +61,8 @@ class MyWidget extends StatefulWidget {
 }
 
 class _MyWidgetState extends State<MyWidget> {
+  final CalendarPlugin _myPlugin = CalendarPlugin();
+
   int screen = 0;
   @override
   Widget build(BuildContext context) {
@@ -206,6 +213,25 @@ class _MyWidgetState extends State<MyWidget> {
             children: <Widget>[
               const SizedBox(height: 16.0),
               SizedBox(
+                width: double.infinity,
+                height: 80.0,
+                child: ElevatedButton(
+                  onPressed: _chooseCalendar,
+                  child: const Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      Icon(Icons.calendar_today, size: 30, color: Colors.white),
+                      SizedBox(width: 8.0),
+                      Text(
+                        'Elegir Calendario',
+                        style: TextStyle(fontSize: 30, color: Colors.white),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 16.0),
+              SizedBox(
                   width: double.infinity,
                   height: 80.0,
                   child: ElevatedButton(
@@ -271,5 +297,81 @@ class _MyWidgetState extends State<MyWidget> {
         );
       },
     );
+  }
+
+  Future<List<Calendar>> _getAllGmailCalendars() async {
+    List<Calendar> gmailCalendars = [];
+
+    final calendars = await _myPlugin.getCalendars();
+
+    final filteredCalendars = calendars?.where(
+      (calendar) => calendar.name!.contains('@gmail.com'),
+    );
+
+    if (filteredCalendars != null) {
+      gmailCalendars = filteredCalendars.toList();
+    }
+
+    return gmailCalendars;
+  }
+
+  Future<void> _chooseCalendar() async {
+    List<Calendar> calendars = await _getAllGmailCalendars();
+
+    showDialog<String>(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: double.infinity),
+            child: AlertDialog(
+              title: const Text('Elegir Calendario'),
+              content: StatefulBuilder(
+                  builder: (BuildContext context, StateSetter setState) {
+                return SizedBox(
+                  child: ListView.builder(
+                    itemCount: calendars.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return ListTile(
+                        title: Text(calendars[index].name!),
+                        leading: Radio<String>(
+                          value: calendars[index].id!,
+                          groupValue: Provider.of<CalendarState>(context)
+                              .chosenCalendarId,
+                          onChanged: (String? value) {
+                            setState(() {
+                              Provider.of<CalendarState>(context, listen: false)
+                                  .chosenCalendarId = value;
+                            });
+                          },
+                        ),
+                      );
+                    },
+                  ),
+                );
+              }),
+              actions: <Widget>[
+                TextButton(
+                  child: const Text('Cerrar'),
+                  onPressed: () {
+                    Navigator.of(context).pop(
+                        Provider.of<CalendarState>(context, listen: false)
+                            .chosenCalendarId);
+                  },
+                )
+              ],
+            ),
+          ),
+        );
+      },
+    ).then((String? value) {
+      if (value != null) {
+        Provider.of<CalendarState>(context, listen: false).chosenCalendarId =
+            value;
+        // Aquí puedes hacer algo con el ID del calendario elegido
+        print(Provider.of<CalendarState>(context, listen: false)
+            .chosenCalendarId);
+      }
+    });
   }
 }
