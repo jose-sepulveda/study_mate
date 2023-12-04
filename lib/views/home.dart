@@ -2,10 +2,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:manage_calendar_events/manage_calendar_events.dart';
-import 'package:study_mate/views/pruebas/prueba_list.dart';
-import 'package:study_mate/views/presentacion/presentacion_list.dart';
-import 'package:study_mate/views/tareas/tarea_list.dart';
-import 'package:study_mate/views/otros/otro_list.dart';
+import 'package:study_mate/services/ponderador.dart';
+import 'package:study_mate/views/notas/notas.dart';
+import 'package:study_mate/views/recordatorios.dart';
 import 'package:study_mate/provider/calendar_state.dart';
 import 'package:provider/provider.dart';
 
@@ -89,8 +88,8 @@ class _MyWidgetState extends State<MyWidget> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const PruebaList()));
-                      print('Botón Pruebas presionado');
+                              builder: (context) => const Recordatorios()));
+                      print('Botón Recordatorios presionado');
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color.fromARGB(255, 181, 58, 9),
@@ -105,7 +104,7 @@ class _MyWidgetState extends State<MyWidget> {
                         ),
                         SizedBox(width: 8.0),
                         Text(
-                          'Pruebas',
+                          'Recordatorios',
                           style: TextStyle(fontSize: 25, color: Colors.white),
                         ),
                       ],
@@ -121,23 +120,23 @@ class _MyWidgetState extends State<MyWidget> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const TareaList()));
+                                builder: (context) => const Notas()));
                         print('Botón Tareas presionado');
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color.fromARGB(255, 238, 145, 5),
+                        backgroundColor: Color.fromARGB(255, 106, 5, 238),
                       ),
                       child: const Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget>[
                           Icon(
-                            Icons.note_alt_outlined,
+                            Icons.note_add,
                             size: 30,
                             color: Colors.white,
                           ),
                           SizedBox(width: 8.0),
                           Text(
-                            'Tareas',
+                            'Notas',
                             style: TextStyle(fontSize: 25, color: Colors.white),
                           ),
                         ],
@@ -152,56 +151,26 @@ class _MyWidgetState extends State<MyWidget> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const PresentacionList()));
-                      print('Botón Presentaciones presionado');
+                              builder: (context) => const Ponderador()));
+                      print('Botón Ponderador presionado');
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color.fromARGB(255, 225, 67, 4),
+                      backgroundColor: Color.fromARGB(255, 4, 100, 225),
                     ),
                     child: const Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
-                        Icon(Icons.personal_video,
-                            size: 30, color: Colors.white),
+                        Icon(Icons.calculate, size: 30, color: Colors.white),
                         SizedBox(
                           width: 8.0,
                         ),
                         Text(
-                          'Presentaciones',
+                          'Ponderador',
                           style: TextStyle(fontSize: 25, color: Colors.white),
                         ),
                       ],
                     ),
                   ),
-                ),
-                const SizedBox(height: 16.0),
-                SizedBox(
-                  width: double.infinity,
-                  height: 80.0,
-                  child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const OtroList()));
-                        print('Botón Otros presionado');
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color.fromARGB(255, 207, 114, 7),
-                      ),
-                      child: const Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Icon(Icons.school, size: 30, color: Colors.white),
-                          SizedBox(
-                            width: 8.0,
-                          ),
-                          Text(
-                            'Otros',
-                            style: TextStyle(fontSize: 25, color: Colors.white),
-                          ),
-                        ],
-                      )),
                 ),
               ],
             ),

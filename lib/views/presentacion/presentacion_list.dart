@@ -2,10 +2,10 @@
 import 'package:flutter/material.dart';
 import 'package:manage_calendar_events/manage_calendar_events.dart';
 import 'package:study_mate/views/presentacion/create.dart';
-import 'package:study_mate/views/home.dart';
 import 'package:study_mate/views/presentacion/update.dart';
 import 'package:provider/provider.dart';
 import 'package:study_mate/provider/calendar_state.dart';
+import 'package:study_mate/views/recordatorios.dart';
 
 import '../event_details.dart';
 
@@ -31,8 +31,8 @@ class _PresentacionListState extends State<PresentacionList> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => const Home()));
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const Recordatorios()));
           },
         ),
       ),
