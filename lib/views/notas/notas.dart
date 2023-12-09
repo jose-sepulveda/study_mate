@@ -79,7 +79,10 @@ class _NotasState extends State<Notas> {
             await Navigator.of(context).push(route);
             await _initializeNotes();
           },
-          child: const Icon(Icons.add),
+          child: const Icon(
+            Icons.add,
+            color: Colors.black,
+          ),
         ),
         body: ListView.builder(
             itemCount: notes.length,

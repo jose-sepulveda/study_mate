@@ -17,10 +17,10 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
     return Scaffold(
         appBar: AppBar(
           title: const Text('Nueva Nota'),
-          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+          backgroundColor: Theme.of(context).colorScheme.background,
         ),
         body: Card(
-          color: Theme.of(context).colorScheme.inversePrimary,
+          color: Colors.black54,
           child: Container(
             padding: const EdgeInsets.all(20),
             child: Column(
@@ -56,7 +56,7 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
                       backgroundColor:
                           MaterialStateProperty.all(Colors.deepPurpleAccent),
                       foregroundColor: MaterialStateProperty.all(
-                          Theme.of(context).colorScheme.inversePrimary)),
+                          Theme.of(context).colorScheme.background)),
                   child: const Text('Crear Nota'),
                 ),
               ],
