@@ -290,57 +290,48 @@ class _MyWidgetState extends State<MyWidget> {
     showDialog<String>(
       context: context,
       builder: (BuildContext context) {
-        return Dialog(
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: double.infinity),
-            child: AlertDialog(
-              title: const Text('Elegir Calendario'),
-              content: StatefulBuilder(
-                  builder: (BuildContext context, StateSetter setState) {
-                return SizedBox(
-                  child: ListView.builder(
-                    itemCount: calendars.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return ListTile(
-                        title: Text(calendars[index].name!),
-                        leading: Radio<String>(
-                          value: calendars[index].id!,
-                          groupValue: Provider.of<CalendarState>(context)
-                              .chosenCalendarId,
-                          onChanged: (String? value) {
-                            setState(() {
-                              Provider.of<CalendarState>(context, listen: false)
-                                  .chosenCalendarId = value;
-                            });
-                          },
-                        ),
-                      );
-                    },
-                  ),
-                );
-              }),
-              actions: <Widget>[
-                TextButton(
-                  child: const Text('Cerrar'),
-                  onPressed: () {
-                    Navigator.of(context).pop(
-                        Provider.of<CalendarState>(context, listen: false)
-                            .chosenCalendarId);
+        return AlertDialog(
+          title: const Text('Elegir Calendario'),
+          content: StatefulBuilder(
+            builder: (BuildContext context, StateSetter setState) {
+              return Container(
+                padding: EdgeInsets.all(1.0), // Aquí ajustas el padding
+                width:
+                    MediaQuery.of(context).size.width, // Aquí ajustas el ancho
+                child: ListView.builder(
+                  itemCount: calendars.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return ListTile(
+                      title: Text(calendars[index].name!),
+                      leading: Radio<String>(
+                        value: calendars[index].id!,
+                        groupValue: Provider.of<CalendarState>(context)
+                            .chosenCalendarId,
+                        onChanged: (String? value) {
+                          setState(() {
+                            Provider.of<CalendarState>(context, listen: false)
+                                .chosenCalendarId = value;
+                          });
+                        },
+                      ),
+                    );
                   },
-                )
-              ],
-            ),
+                ),
+              );
+            },
           ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Cerrar'),
+              onPressed: () {
+                Navigator.of(context).pop(
+                    Provider.of<CalendarState>(context, listen: false)
+                        .chosenCalendarId);
+              },
+            )
+          ],
         );
       },
-    ).then((String? value) {
-      if (value != null) {
-        Provider.of<CalendarState>(context, listen: false).chosenCalendarId =
-            value;
-        // Aquí puedes hacer algo con el ID del calendario elegido
-        print(Provider.of<CalendarState>(context, listen: false)
-            .chosenCalendarId);
-      }
-    });
+    );
   }
 }
